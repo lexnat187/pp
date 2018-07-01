@@ -13,7 +13,7 @@ class SearchBar extends Component {
         }
     }
 
-  executeSearch = (searchQuery, colour) => {
+  executeSearch = (searchQuery) => {
     const { search } = this.state
     this.props.actions.search(search, '', 1)
   }
