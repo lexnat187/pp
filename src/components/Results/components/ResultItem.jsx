@@ -21,11 +21,11 @@ export default class ResultItem extends Component {
         return(
             <div style={STYLES.parent.style}>
                 <div>
-                    {title}
+                    Title: {title}
                     <br />
-                    {url}
+                    Link: <a href={url} target="_blank"> {url} </a>
                     <br />
-                    {ingredients}
+                    Ingredients: {ingredients}
                     <br />
                 </div>
                 <img 

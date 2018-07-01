@@ -28,7 +28,7 @@ class Results extends Component {
     constructor() {
         super()
         this.state = {
-            results: {},
+            results: [],
             baseIMGURL: ''
         }
     }
@@ -36,7 +36,7 @@ class Results extends Component {
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.searchResult && this.props.searchResult !== nextProps.searchResult) {
         this.setState({
-            results: nextProps.searchResult
+            results: nextProps.searchResult.results
         })
     }
   }
@@ -46,10 +46,10 @@ class Results extends Component {
     // const { baseIMGURL } = this.props
 
     let resultsToRender 
-    if (results && results.hits){
-        resultsToRender = results.hits.map((result, index) => {
+    if (results){
+        resultsToRender = results.map((result, index) => {
             if (index < 20) {
-                return <ResultItem title={result.title} url={result.url} image={result.image} ingredients={result.ingredients} />
+                return <ResultItem title={result.title} url={result.href} image={result.thumbnail} ingredients={result.ingredients} />
             }
         })
     } else {
