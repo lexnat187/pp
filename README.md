@@ -25,8 +25,8 @@ yarn start
 
 ## Issues
 
-CORS - as there is no API backend you will need to install 'Allow-Control-Allow-Origin' for Chrome
-Pagination - there is no total count for the results which means that multiple requests to the API must be made to retreive the initial 20 results
+* CORS - as there is no API backend you will need to install 'Allow-Control-Allow-Origin' for Chrome
+* Pagination - there is no total count for the results which means that multiple requests to the API must be made to retreive the initial 20 results
 
 ## Author
 
