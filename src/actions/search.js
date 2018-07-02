@@ -12,6 +12,7 @@ function getSearchRequest (search, ingredients, page) {
     type: GET_SEARCH_REQUEST,
     searchQuery: search,
     ingredients: ingredients,
+    searchResult: {},
     page: page,
     isFetching: true
   }
@@ -33,20 +34,9 @@ function getSearchFailure (message) {
   }
 }
 
-// function toTitleCase(str) {
-//   return str.replace(/\w\S*/g, function(txt){
-//       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-//   })
-// }
-
 export function search (search, ingredients, page)  {
   return async (dispatch, getState) => {
     dispatch(getSearchRequest(search, ingredients, page))
-
-    // const payload = {
-    //   search: toTitleCase(search),
-    //   colour: toTitleCase(colour)
-    // }
 
     let myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/json')
@@ -55,11 +45,22 @@ export function search (search, ingredients, page)  {
         // http://www.recipepuppy.com/api/?i=onions,garlic&q=omelet&p=3 
       let response = await fetch( `${baseAPIURL}?i=${ingredients}&q=${search}&p=${page}`, {
             method: 'GET',
-            headers: myHeaders//,
-            // body: JSON.stringify(payload)
+            headers: myHeaders
       })
       let responseJson = await response.json()
-      dispatch(getSearchSuccess(responseJson))
+
+      let response2 = await fetch( `${baseAPIURL}?i=${ingredients}&q=${search}&p=${page+1}`, {
+            method: 'GET',
+            headers: myHeaders
+      })
+      let response2Json = await response2.json()
+
+      let combinedResponse = {
+          ...responseJson,
+          results: [...responseJson.results, ...response2Json.results]
+      }
+
+      dispatch(getSearchSuccess(combinedResponse))
     } catch (error) {
       dispatch(getSearchFailure(error))
     }
