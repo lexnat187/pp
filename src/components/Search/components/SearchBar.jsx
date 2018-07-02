@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import TextField from '@material-ui/core/TextField'
+import {DebounceInput} from 'react-debounce-input';
 
 class SearchBar extends Component {
 
@@ -22,6 +23,7 @@ class SearchBar extends Component {
     this.setState({
       [name]: event.target.value,
     })
+    this.props.actions.search(event.target.value, '', 1)
   }
 
   keyPress = (event) => {
@@ -34,7 +36,10 @@ class SearchBar extends Component {
 
     return (
         <div>
-            <TextField
+            <DebounceInput
+                minLength={2}
+                debounceTimeout={300}
+                element={TextField}
                 id="search"
                 label="Recipe search..."
                 type="search"
