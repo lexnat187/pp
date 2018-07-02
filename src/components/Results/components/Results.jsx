@@ -16,11 +16,8 @@ const STYLES = {
 const Content = styled.div`
     display: grid;
     grid-gap: 5px;
-    grid-template-columns: repeat(2, 440px);
-    grid-template-rows: repeat(auto-fit, 440px);
-    @media (max-width: 1224px) {
-        grid-template-columns: repeat(1, 440px);
-    }
+    padding-left: 10px;
+    padding-right: 10px;
 `;
 
 class Results extends Component {
@@ -28,8 +25,7 @@ class Results extends Component {
     constructor() {
         super()
         this.state = {
-            results: [],
-            baseIMGURL: ''
+            results: []
         }
     }
 
@@ -43,13 +39,12 @@ class Results extends Component {
 
   renderResults = () => {
     const { results } = this.state
-    // const { baseIMGURL } = this.props
 
     let resultsToRender 
     if (results){
         resultsToRender = results.map((result, index) => {
             if (index < 20) {
-                return <ResultItem title={result.title} url={result.href} image={result.thumbnail} ingredients={result.ingredients} />
+                return <ResultItem title={result.title} url={result.href} image={result.thumbnail} ingredients={result.ingredients} index={index} />
             }
         })
     } else {

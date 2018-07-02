@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 
+const Entities = require('html-entities').AllHtmlEntities
+const entities = new Entities()
+
 const STYLES = {
     parent: {
       style: {
@@ -14,27 +17,67 @@ const STYLES = {
     }
   }
 
-export default class ResultItem extends Component {
-    render () {
-        const { title, url, image, ingredients } = this.props
+  const PRIMARY_COLOUR = 'WHITE'
+  const ITERATING_COLOUR = '#d4d4d4'
 
+export default class ResultItem extends Component {
+
+    constructor() {
+        super()
+        this.state = {
+            renderCollapsed: true
+        }
+    }
+
+    handleCollapse = () => {
+        const { renderCollapsed } = this.state
+        this.setState({renderCollapsed: !renderCollapsed})
+    }
+
+    convertString = (string) => {
+        return entities.decode(string)
+    }
+
+    renderCollapsed = () => {
+        const { title, index } = this.props
+        let colour = index % 2 === 0 
+        return (
+            <div style={{ backgroundColor: colour ? ITERATING_COLOUR : PRIMARY_COLOUR }}
+                onClick={this.handleCollapse} >
+                Title: {this.convertString(title)}
+            </div>
+        )
+    }
+    
+    renderExpanded = () => {
+        const { title, url, image, ingredients, index } = this.props
+        let colour = index % 2 === 0 
         return(
-            <div style={STYLES.parent.style}>
-                <div>
-                    Title: {title}
+            <div style={{ backgroundColor: colour ? ITERATING_COLOUR : PRIMARY_COLOUR }}>
+
+                <div onClick={this.handleCollapse}>
+                    Title: {this.convertString(title)}
                     <br />
-                    Link: <a href={url} target="_blank"> {url} </a>
-                    <br />
-                    Ingredients: {ingredients}
+                    Ingredients: {this.convertString(ingredients)}
                     <br />
                 </div>
+                Link: <a href={url} target="_blank"> {url} </a>
+                <br />
                 <img 
-                  style={STYLES.parent.imgStyle} 
-                  key={image} 
-                  src={`${image}`} 
-                  alt="" className="img-responsive" 
+                    style={STYLES.parent.imgStyle} 
+                    key={image} 
+                    src={`${image}`} 
+                    alt="" className="img-responsive" 
                 />
-             </div>
+                </div>
+        )
+    }
+
+    render () {
+        const { renderCollapsed } = this.state
+
+        return(
+            renderCollapsed ? this.renderCollapsed() : this.renderExpanded()
         )
     }
 }
