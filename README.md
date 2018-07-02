@@ -27,6 +27,7 @@ yarn start
 
 * CORS - as there is no API backend you will need to install 'Allow-Control-Allow-Origin' for Chrome
 * Pagination - there is no total count for the results which means that multiple requests to the API must be made to retreive the initial 20 results
+* Displaying results as text is entered -  a debounce is added to the component to give a better user experiance
 
 ## Author
 
